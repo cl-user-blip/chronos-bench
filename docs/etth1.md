@@ -26,7 +26,7 @@ python scripts/fetch_etth1.py --source /path/to/ETTh1.csv --license-source /path
 
 本地转换仅保留 date、OT，分别改名 timestamp、y；不滤行、不对目标做归一化。上游时间戳没有时区，本框架保留时钟读数并解释为 UTC，此处不声称知道采集时区。
 
-按原始序列行数切分 55% 拟合、15% 验证、15% 校准、15% 测试；边界按 horizon 清除；选参后重训最早 70%。这与 Informer 等文献的常用标准切分和多变量任务不一致，因此本报告**只用于展示自己的评估管线，不用于 SOTA 或论文横向排名**。
+按原始序列行数切分 55% 拟合、15% 验证、15% 校准、15% 测试；边界按 horizon 清除；选参后重训最早 70%。这与 Informer 等文献的常用标准切分和多变量任务不一致，**不能作为同协议的论文横向排名结果**。
 
 ## 输出解释
 
@@ -38,4 +38,4 @@ python scripts/fetch_etth1.py --source /path/to/ETTh1.csv --license-source /path
 
 Haoyi Zhou, Shanghang Zhang, Jieqi Peng, Shuai Zhang, Jianxin Li, Hui Xiong, and Wancai Zhang. **Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting.** AAAI 2021, 35(12), 11106–11115. [作者仓库中的引用信息](https://github.com/zhouhaoyi/ETDataset#electricity-transformer-dataset-etdataset)。
 
-本项目独立编写了数据契约、特征、拆分、实验调度和报告代码；不属于 ETDataset/Informer 官方项目，也不暗示原作者认可本项目。
+本项目提供数据契约、特征、拆分、实验调度和报告实现；与 ETDataset/Informer 官方项目无隶属关系。

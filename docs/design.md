@@ -42,7 +42,7 @@ HistGradientBoosting 的 `early_stopping=False`，避免隐式内部随机 holdo
 
 令校准绝对残差为 `r_i`，样本数为 `n`，取排序后第 `ceil((n+1)*(1-alpha))` 个值为 `q`，预测区间是 `[prediction-q, prediction+q]`。样本不足以得到有限半宽时明确报错。报告 MAE、RMSE、WAPE、区间覆盖率、平均区间宽度以及 interval score。全零目标的 WAPE 未定义，写为 JSON null。
 
-有限样本秩修正来自 split conformal 的方法，但此处时间序列有自相关、漂移，不满足可交换性；**不承诺分布无关的 90% 覆盖保证**。这个版本故意保留实际覆盖偏差，便于讨论滚动校准、按小时分桶和自适应 conformal 的后续方案。
+有限样本秩修正来自 split conformal 的方法，但此处时间序列有自相关、漂移，不满足可交换性；**不承诺分布无关的 90% 覆盖保证**。报告记录实际覆盖偏差、区间宽度与 interval score，用于评估区间在不同预测距离下的表现。
 
 ## 数据契约
 
@@ -61,11 +61,11 @@ CSV 必须有 `timestamp,y` 两列，至少 720 行，时间严格递增、无�
 
 ## 参考依据
 
-实现为独立编写，以下官方文档用于核对时间拆分和估计器 API：
+时间拆分和估计器 API 参考：
 
 - [scikit-learn：带滞后特征的时间序列预测](https://scikit-learn.org/stable/auto_examples/applications/plot_time_series_lagged_features.html)
 - [scikit-learn：TimeSeriesSplit 的 gap 参数](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html)；本项目使用显式 origin/target 边界而不是直接调用该类。
 - [scikit-learn：HistGradientBoostingRegressor](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.HistGradientBoostingRegressor.html)
 - [Angelopoulos & Bates：A Gentle Introduction to Conformal Prediction and Distribution-Free Uncertainty Quantification](https://arxiv.org/abs/2107.07511)：区间秩修正与假设的参考；本项目不将可交换数据上的保证扩展到漂移时间序列。
 
-扩展方向：真实公开数据的版本锁定与许可、扩展窗多折验证、按 horizon/hour 校准、分位数模型、概念漂移检测、模型序列化与服务化。当前只完成单序列离线实验平台。
+当前支持单序列离线评估，以及固定版本 ETTh1 下载与来源记录。扩展方向包括扩展窗多折验证、按 horizon/hour 校准、分位数模型、概念漂移检测、模型序列化与服务化。
